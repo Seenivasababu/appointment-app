@@ -1,10 +1,13 @@
 'use client';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { ChangeEvent } from 'react';
 const BASE_URL = 'http://localhost:3001';
 
 const Login = () => {
+  const router = useRouter();
+
   const [formState, setFormState] = useState({
     email: '',
     password: '',
@@ -23,6 +26,7 @@ const Login = () => {
   const handleSubmit = async () => {
     const res = await axios.post(`${BASE_URL}/user/login`, formState);
     console.log(res);
+    router.push('/')
   };
 
   return (
