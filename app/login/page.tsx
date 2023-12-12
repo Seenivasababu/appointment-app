@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { ChangeEvent } from 'react';
+import toast from 'react-hot-toast';
 const BASE_URL = 'http://localhost:3001';
 
 const Login = () => {
@@ -25,8 +26,15 @@ const Login = () => {
 
   const handleSubmit = async () => {
     const res = await axios.post(`${BASE_URL}/user/login`, formState);
-    console.log(res);
-    router.push('/')
+    const data:{message:String,success:Boolean} = res.data
+    if(data.success){
+      toast.success(`${data.message}`)
+      router.push('/')
+    }else{
+      toast.error(`${data.message}`)
+      router.push('/login')
+    }
+    
   };
 
   return (

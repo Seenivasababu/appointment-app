@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { ChangeEvent } from 'react';
+import toast from 'react-hot-toast';
 const BASE_URL = 'http://localhost:3001';
+
 
 const Register = () => {
   const router = useRouter();
@@ -26,6 +28,7 @@ const Register = () => {
   const handleSubmit = async () => {
     const res = await axios.post(`${BASE_URL}/user/register`, formState);
     console.log(res.data);
+    toast.success("Registration successful")
     router.push('/login')
   };
 

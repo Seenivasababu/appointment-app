@@ -18,10 +18,11 @@ router.post('/register', async (req, res) => {
       password,
     },
   });
-  res
+  return res
     .status(201)
     .send({ message: 'Account registered successfully', success: true });
 });
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const user = await prisma.user.findUnique({
@@ -30,15 +31,18 @@ router.post('/login', async (req, res) => {
     },
   });
   if (!user) {
-    res.status(403).send({ message: 'User not exist', success: false });
+    res.status(200).send({ message: 'User not exist', success: false });
+    return;
   }
   const match = user?.password === password;
   if (!match) {
-    res.status(403).send({ message: 'Password invalid', success: false });
+    res.status(200).send({ message: 'Password invalid', success: false });
+    return;
   }
   // const token = jwt.signin({ userId: user?.id }, 'Secret');
   const token = user?.id;
-  res.status(200).send({ message: 'Loin Successfull', success: true, token });
+  res.status(200).send({ message: 'Login Successfull', success: true, token });
+  return;
 });
 
 module.exports = router;
