@@ -1,10 +1,24 @@
 'use client';
 import axios from 'axios';
 import React, { ChangeEvent, useState } from 'react';
+import toast from 'react-hot-toast';
 const BASE_URL = 'http://localhost:3001';
 
+export type Form = {
+  firstName: string;
+  lastName: string;
+  phoneNumber: number;
+  website: string;
+  address: string;
+  fees: number;
+  specialization: string;
+  experience: string;
+  startTime: string;
+  endTime: string;
+}
+
 const Apply = () => {
-  const [formState, setFormState] = useState({
+  const [formState, setFormState] = useState<Form>({
     firstName: '',
     lastName: '',
     phoneNumber: 0,
@@ -28,8 +42,13 @@ const Apply = () => {
   };
 
   const handleSubmit = async () => {
-    const res = await axios.post(`${BASE_URL}/user/apply`, formState);
-    const data = res.data
+    const res = await axios.post(`${BASE_URL}/doctor/apply`, formState);
+    const data:{message:String,success:Boolean} = res.data
+    if(data.success){
+      toast.success(`${data.message}`)
+    }else{
+      toast.error(`${data.message}`)
+    }
   };
 
   return (

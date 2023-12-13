@@ -29,3 +29,17 @@ model Notification {
   user    User   @relation(fields: [userId], references: [id])
   userId  Int
 }
+
+model Form {
+  id             Int    @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  phoneNumber    Int
+  website        String
+  address        String
+  fees           Int
+  specialization String
+  experience     String
+  startTime      String
+  endTime        String
+}
