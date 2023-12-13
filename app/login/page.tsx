@@ -26,9 +26,10 @@ const Login = () => {
 
   const handleSubmit = async () => {
     const res = await axios.post(`${BASE_URL}/user/login`, formState);
-    const data:{message:String,success:Boolean,token:String} = res.data
+    const data:{message:string,success:Boolean,token:string} = res.data
     if(data.success){
       toast.success(`${data.message}`)
+      localStorage.setItem('token',data.token)
       router.push(`/user/${data.token}`)
     }else{
       toast.error(`${data.message}`)

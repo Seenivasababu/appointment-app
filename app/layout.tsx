@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'react-hot-toast';
-import NavBat from './NavBat';
+import NavBat from './NavBar';
 import SideBar from './SideBar';
 
 const inter = Inter({ subsets: ['latin'] });
