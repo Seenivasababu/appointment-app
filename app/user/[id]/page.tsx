@@ -13,6 +13,7 @@ export type User  = {
   name: string;
   isDoctor: boolean;
   isAdmin: boolean;
+
 }
 const UserHomePage = async ({params}:Params) => {
  

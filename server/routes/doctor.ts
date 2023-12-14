@@ -13,6 +13,28 @@ router.post('/apply', async (req, res) => {
         fees: Number(data.fees),
       },
     });
+
+    const admin = await prisma.user.findFirst({
+      where : {
+        isAdmin:true
+      },
+
+     
+    })
+    if(admin){
+      const notification = await prisma.notification.create({
+        data : {
+          type : "Apply for Doctor",
+          message : `${user.firstName} applied for Doctor approval`,
+          userId : admin.id
+        }
+      })
+      console.log(notification);
+    }
+    
+    
+   
+    
   } catch (error) {
     return res
       .status(200)
