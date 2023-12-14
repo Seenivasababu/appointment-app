@@ -3,7 +3,8 @@ import { prisma } from '../script';
 
 const router = express.Router();
 
-router.post('/apply', async (req, res) => {
+router.post('/apply/:id', async (req, res) => {
+  const { id } = req.params;
   const data = req.body;
   try {
     const user = await prisma.form.create({
@@ -11,31 +12,31 @@ router.post('/apply', async (req, res) => {
         ...data,
         phoneNumber: Number(data.phoneNumber),
         fees: Number(data.fees),
+        userId: parseInt(id),
       },
     });
+    console.log(user,"apply");
 
     const admin = await prisma.user.findFirst({
-      where : {
-        isAdmin:true
+      where: {
+        isAdmin: true,
       },
-
-     
-    })
-    if(admin){
+    });
+    
+    if (admin) {
       const notification = await prisma.notification.create({
-        data : {
-          type : "Apply for Doctor",
-          message : `${user.firstName} applied for Doctor approval`,
-          userId : admin.id
-        }
-      })
-      console.log(notification);
+        data: {
+          type: 'Apply for Doctor',
+          message: `${user.firstName} applied for Doctor approval`,
+          receiverId: admin.id,
+          senderId: user.id,
+        },
+      });
+      console.log(notification,"apply");
     }
-    
-    
-   
-    
   } catch (error) {
+    console.log(error, 'error');
+
     return res
       .status(200)
       .send({ message: 'Application registration failed', success: false });
@@ -55,7 +56,6 @@ router.get('/listAll', async (req, res) => {
       .status(200)
       .send({ message: 'Something went wrong', success: false });
   }
-  
 });
 
 module.exports = router;

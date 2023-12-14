@@ -9,6 +9,7 @@ app.use(express.json());
 const userRouter = require('./routes/user'); 
 const doctorRouter = require('./routes/doctor'); 
 const infoRouter = require('./routes/info'); 
+const adminRouter = require('./routes/admin'); 
 
 app.get('/', (req, res) => {
   res.json('Hi');
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 app.use('/user',userRouter)
 app.use('/doctor',doctorRouter)
 app.use('/info',infoRouter)
+app.use('/admin',adminRouter)
 
 const PORT = 3001;
 
