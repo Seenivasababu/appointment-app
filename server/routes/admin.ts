@@ -50,6 +50,17 @@ router.post('/reject', async (req, res) => {
           receiverId: parseInt(receiverId),
         },
       });
+      try {
+        const form = await prisma.form.delete({
+          where  : {
+            userId : receiverId
+          }
+        })
+      } catch (error) {
+        console.log(error);
+        
+      }
+      
     } catch (error) {
       console.log(error);
     }
