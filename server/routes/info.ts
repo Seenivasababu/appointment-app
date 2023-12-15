@@ -17,7 +17,7 @@ router.get('/:id', async (req, res) => {
     });
     
     if (user) {
-      console.log(user);
+    
       
       return res.status(200).send(user);
     } else {

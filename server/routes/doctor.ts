@@ -7,7 +7,7 @@ router.post('/apply/:id', async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   try {
-    console.log(id,"id");
+  
     
     const user = await prisma.form.create({
       data: {
@@ -17,7 +17,7 @@ router.post('/apply/:id', async (req, res) => {
         userId: parseInt(id),
       },
     });
-    console.log(user,"apply");
+    
 
     const admin = await prisma.user.findFirst({
       where: {
@@ -34,7 +34,7 @@ router.post('/apply/:id', async (req, res) => {
           senderId: parseInt(id),
         },
       });
-      console.log(notification,"apply");
+      
     }
   } catch (error) {
     console.log(error, 'error');

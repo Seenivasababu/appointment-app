@@ -17,7 +17,7 @@ const Action = ({id,notId}: {id:Number,notId:Number}) => {
     }
   };
   const handleReject = async () => {
-    const res = await axios.post(`${BASE_URL}/admin/reject/${id}`);
+    const res = await axios.post(`${BASE_URL}/admin/reject`,{receiverId:id,notId:notId});
     const data = res.data;
     if(data.success){
       toast.success(`${data.message}`)

@@ -4,11 +4,8 @@ import { prisma } from '../script';
 const router = express.Router();
 
 router.post('/approve/', async (req, res) => {
-  console.log('approve enter');
+  const { receiverId, notId } = req.body;
 
-  const { receiverId,notId } = req.body
-  console.log("receiverId", receiverId, typeof(receiverId));
-  
   try {
     try {
       const notification = await prisma.notification.create({
@@ -19,27 +16,16 @@ router.post('/approve/', async (req, res) => {
         },
       });
     } catch (error) {
-      console.log(error, 'notifi');
+      console.log(error);
     }
     try {
-      const admin = await prisma.user.findFirst({
+      await prisma.notification.delete({
         where: {
-          isAdmin: true,
-        },
-        select: {
-          id: true,
+          id: notId,
         },
       });
-
-      const notif = await prisma.notification.delete({
-        where : {
-          id : notId
-        }
-      })
-      
     } catch (error) {
-      console.log(error,"admin");
-      
+      console.log(error);
     }
 
     return res
@@ -52,29 +38,30 @@ router.post('/approve/', async (req, res) => {
   }
 });
 
-router.post('/reject/:id', async (req, res) => {
-  const { id } = req.params;
+router.post('/reject', async (req, res) => {
+  const { receiverId, notId } = req.body;
+
   try {
-    const notification = await prisma.notification.create({
-      data: {
-        type: 'Application status',
-        message: `Your Doctor approval has been rejected`,
-        receiverId: parseInt(id),
-      },
-    });
-    const admin = await prisma.user.findFirst({
-      where: {
-        isAdmin: true,
-      },
-      select: {
-        id: true,
-      },
-    });
-    const update = await prisma.notification.delete({
-      where: {
-        id: admin?.id,
-      },
-    });
+    try {
+      const notification = await prisma.notification.create({
+        data: {
+          type: 'Application status',
+          message: `Your Doctor approval has been rejected`,
+          receiverId: parseInt(receiverId),
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      await prisma.notification.delete({
+        where: {
+          id: notId,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
     return res
       .status(200)
@@ -86,4 +73,4 @@ router.post('/reject/:id', async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = router
