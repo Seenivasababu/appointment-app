@@ -4,9 +4,9 @@ import React from 'react';
 import toast from 'react-hot-toast';
 const BASE_URL = 'http://localhost:3001';
 
-const Action = ({id}: {id:Number}) => {
+const Action = ({id,notId}: {id:Number,notId:Number}) => {
   const handleApprove = async () => {
-    const res = await axios.post(`${BASE_URL}/admin/approve/${id}`);
+    const res = await axios.post(`${BASE_URL}/admin/approve`,{receiverId:id,notId:notId});
     const data = res.data;
     if(data.success){
       toast.success(`${data.message}`)

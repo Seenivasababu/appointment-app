@@ -37,7 +37,7 @@ export default async function page({ params }: Params) {
               className="p-2 flex gap-4 shadow-md justify-between mr-20 rounded-md items-center hover:bg-slate-100"
             >
               <h1>{notification.message}</h1>
-              {notification.type === 'Apply for Doctor' && <Action id={notification.senderId}/>}
+              {notification.type === 'Apply for Doctor' && <Action id={notification.senderId} notId={notification.id}/>}
              
             </div>
           );

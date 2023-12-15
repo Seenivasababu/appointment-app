@@ -7,6 +7,8 @@ router.post('/apply/:id', async (req, res) => {
   const { id } = req.params;
   const data = req.body;
   try {
+    console.log(id,"id");
+    
     const user = await prisma.form.create({
       data: {
         ...data,
@@ -29,7 +31,7 @@ router.post('/apply/:id', async (req, res) => {
           type: 'Apply for Doctor',
           message: `${user.firstName} applied for Doctor approval`,
           receiverId: admin.id,
-          senderId: user.id,
+          senderId: parseInt(id),
         },
       });
       console.log(notification,"apply");

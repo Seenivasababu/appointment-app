@@ -3,17 +3,19 @@ import { prisma } from '../script';
 
 const router = express.Router();
 
-router.post('/approve/:id', async (req, res) => {
+router.post('/approve/', async (req, res) => {
   console.log('approve enter');
 
-  const { id } = req.params;
+  const { receiverId,notId } = req.body
+  console.log("receiverId", receiverId, typeof(receiverId));
+  
   try {
     try {
       const notification = await prisma.notification.create({
         data: {
           type: 'Application status',
           message: `Your Doctor approval has been approved`,
-          receiverId: parseInt(id),
+          receiverId: parseInt(receiverId),
         },
       });
     } catch (error) {
@@ -28,11 +30,13 @@ router.post('/approve/:id', async (req, res) => {
           id: true,
         },
       });
-      const update = await prisma.notification.delete({
-        where: {
-          id: admin?.id,
-        },
-      });
+
+      const notif = await prisma.notification.delete({
+        where : {
+          id : notId
+        }
+      })
+      
     } catch (error) {
       console.log(error,"admin");
       
